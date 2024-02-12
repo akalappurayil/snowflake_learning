@@ -13,6 +13,6 @@ my_fruit_list = pd.read_csv('https://uni-lab-files.s3.us-west-2.amazonaws.com/da
 #my_fruit_list.set_index('Fruit')
 
 #Let's add an option for users to pick the fruits for their own smoothie
-streamlit.multiselect('Pick some fruits : ', list(my_fruit_list.Fruit)) 
+streamlit.multiselect('Pick some fruits : ', list(my_fruit_list.Fruit), ['Avocado','Strawberries']) 
 #Display the list of fruits
 streamlit.dataframe(my_fruit_list)
