@@ -39,18 +39,22 @@ except URLError as e:
  streamlit.error() 
 
 # Show the parsed json data as a table
-
-
+def get_fruit_load_list():
+ with my_cnx.cursor() as  my_cur:
+  my_cur.execute("SELECT * from fruit_load_list")
+  return my_cur.fetchall()
+if streamlit.button('Get Fruit Load List')):
+ my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+ my_data_flows = get_fruit_load_list()
+ streamlit.text("The fruit load list contains:")
+ streamlit.dataframe(my_data_rows)
 streamlit.stop()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
+
 #streamlit.write("Thanks for adding", add_my_fruit)
 my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('from streamlit')")
-my_cur.execute("SELECT * from fruit_load_list")
-my_data_rows = my_cur.fetchall()
-streamlit.text("The fruit load list contains:")
-streamlit.dataframe(my_data_rows)
+
+
 fruit_choice1 = streamlit.text_input('What fruit would you like information about?','Jackfruit')
 streamlit.write('The user entered ', fruit_choice1)
 fruityvice_response1 = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice1)
